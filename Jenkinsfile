@@ -12,6 +12,11 @@ pipeline {
       }
 
       stage("build") {
+        when {
+          expression {
+            BRANCH_NAME == 'main'
+          }
+        }
         steps {
           script {
             gv.buildApp()
@@ -22,10 +27,16 @@ pipeline {
       stage("test") {
         steps {
           echo "testing the application ...."
+          echo "Executing pipeline for $BRANCH_NAME"
         }
       }
 
       stage("deploy") {
+        when {
+          expression {
+            BRANCH_NAME == 'main'
+          }
+        }
         steps {
           echo "deploying the application ...."
         }
